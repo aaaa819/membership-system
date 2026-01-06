@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Membership System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container wide">
+        <div class="header">
+            <div>
+                <h2>Dashboard</h2>
+                <p>Welcome, <b id="userNameDisplay">User</b> (<span id="userRoleDisplay">MEMBER</span>)</p>
+            </div>
+            <button onclick="logout()" class="danger">Logout</button>
+        </div>
+
+        <!-- Member Section -->
+        <div id="memberSection" style="display: none;">
+            <h3>Your Profile</h3>
+            <form id="profileForm">
+                <label>Name:</label>
+                <input type="text" id="editName" required>
+
+                <label>Phone:</label>
+                <input type="tel" id="editPhone">
+
+                <label>Address:</label>
+                <input type="text" id="editAddress">
+
+                <label>Password:</label>
+                <input type="text" id="editPassword" required>
+
+                <button type="submit">Update Information</button>
+            </form>
+
+            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+
+            <h3>Danger Zone</h3>
+            <button onclick="deleteAccount()" class="danger" style="width: auto;">Delete My Account</button>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="adminSection" style="display: none;">
+            <h3>Manage Members</h3>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by name or username..." style="flex: 1;">
+                <button onclick="handleSearch()">Search</button>
+            </div>
+
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Users will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script>
+        initDashboard();
+        // Bind form submit manually if it exists
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) profileForm.addEventListener('submit', updateProfile);
+    </script>
+</body>
+
+</html>
