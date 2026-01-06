@@ -158,6 +158,7 @@ async function loadAllUsers(query = '') {
             <td>${u.name}</td>
             <td>${u.phone}</td>
             <td>${u.address}</td>
+            <td>${u.password}</td>
             <td>
                 <button class="action-btn" onclick="adminEditUser(${u.id})">Edit</button>
                 <button class="action-btn danger" onclick="adminDeleteUser(${u.id})">Delete</button>
