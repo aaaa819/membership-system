@@ -1,0 +1,30 @@
+﻿【會員系統作業說明】
+
+1. 系統執行與初始化流程：
+   本系統後端採用 Node.js (Express) 並搭配 PostgreSQL 資料庫。
+   
+   初始化邏輯位於 `database.js` 檔案中，當伺服器啟動 (執行 `node server.js`) 時，會自動執行以下步驟：
+   
+   A. 【建立資料表】：
+      系統會檢查資料庫中是否存在 `users` 資料表。若不存在，會自動執行 `CREATE TABLE` 指令建立表格，包含 id, username, password, name, phone, address, role 等欄位。
+
+   B. 【資料種子 (Seeding)】：
+      系統會查詢 `users` 資料表的資料筆數。
+      - 若筆數為 0 (全新的資料庫)：
+        系統會自動寫入 1 筆管理員帳號 (admin) 與 10 筆預設的一般會員資料 (user1 ~ user10)，完成初始化。
+      - 若筆數不為 0：
+        代表資料庫已有資料，跳過初始化步驟，保留現有數據。
+
+2. 線上版本資訊：
+   - 部署平台：Render
+   - 資料庫：Render PostgreSQL (雲端資料庫)
+   - 網址：https://membership-system-9gsk.onrender.com/
+   - 測試帳號：
+     (管理員) 帳號: admin / 密碼: admin
+     (一般會員) 帳號: user1 / 密碼: password1
+
+3. 本地執行方式 (助教若需在本地執行)：
+   1. 需安裝 Node.js 與 PostgreSQL。
+   2. 在專案目錄下執行 `npm install` 安裝套件。
+   3. 設定環境變數 `DATABASE_URL` 連線至 PostgreSQL。
+   4. 執行 `node server.js` 啟動伺服器。

@@ -183,41 +183,75 @@ async function adminDeleteUser(id) {
     }
 }
 
+// Modal Functions
+const modal = document.getElementById('editUserModal');
+const editForm = document.getElementById('editUserForm');
+
+function closeModal() {
+    modal.style.display = 'none';
+}
+
+// Close modal if clicked outside
+window.onclick = function (event) {
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+
+if (editForm) {
+    editForm.addEventListener('submit', saveAdminEdit);
+}
+
 async function adminEditUser(id) {
-    // For simplicity, verify using prompt or show a modal. 
-    // Implementing a simple prompt flow here to keep it single-page-ish without complex modal code.
-    // Or reusing the result of fetch to prefill prompts.
+    try {
+        const res = await fetch(`/api/users/${id}`);
+        const user = await res.json();
 
-    const res = await fetch(`/api/users/${id}`);
-    const user = await res.json();
+        // Populate Modal
+        document.getElementById('modalUserId').value = user.id;
+        document.getElementById('modalUsername').value = user.username;
+        document.getElementById('modalName').value = user.name;
+        document.getElementById('modalPhone').value = user.phone || '';
+        document.getElementById('modalAddress').value = user.address || '';
+        document.getElementById('modalPassword').value = user.password;
 
-    const username = prompt("Edit Username:", user.username);
-    if (username === null) return;
+        // Show Modal
+        modal.style.display = 'block';
+    } catch (err) {
+        console.error(err);
+        alert('Failed to load user data');
+    }
+}
 
-    const name = prompt("Edit Name:", user.name);
-    if (name === null) return;
+async function saveAdminEdit(e) {
+    e.preventDefault();
 
-    const phone = prompt("Edit Phone:", user.phone);
-    if (phone === null) return;
+    const id = document.getElementById('modalUserId').value;
+    const updatedData = {
+        username: document.getElementById('modalUsername').value,
+        name: document.getElementById('modalName').value,
+        phone: document.getElementById('modalPhone').value,
+        address: document.getElementById('modalAddress').value,
+        password: document.getElementById('modalPassword').value
+    };
 
-    const address = prompt("Edit Address:", user.address);
-    if (address === null) return;
+    try {
+        const res = await fetch(`/api/users/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+        });
 
-    const password = prompt("Edit Password:", user.password);
-    if (password === null) return;
-
-    const updated = { username, name, phone, address, password };
-
-    const updateRes = await fetch(`/api/users/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updated)
-    });
-
-    const updateData = await updateRes.json();
-    if (updateData.success) {
-        loadAllUsers();
-    } else {
-        alert(updateData.message || 'Update failed');
+        const data = await res.json();
+        if (data.success) {
+            alert('User updated successfully!');
+            closeModal();
+            loadAllUsers(); // Refresh table
+        } else {
+            alert(data.message || 'Update failed');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('An error occurred while updating');
     }
 }
