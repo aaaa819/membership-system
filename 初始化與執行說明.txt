@@ -11,7 +11,7 @@
    B. 【資料種子 (Seeding)】：
       系統會查詢 `users` 資料表的資料筆數。
       - 若筆數為 0 (全新的資料庫)：
-        系統會自動寫入 1 筆管理員帳號 (admin) 與 10 筆預設的一般會員資料 (user1 ~ user10)，完成初始化。
+        系統會自動寫入 1 筆管理員帳號 (admin) 與 10 筆指定的一般會員資料 (linyu_0823, yijun_chen 等)，完成初始化。
       - 若筆數不為 0：
         代表資料庫已有資料，跳過初始化步驟，保留現有數據。
 
@@ -21,7 +21,7 @@
    - 網址：https://membership-system-9gsk.onrender.com/
    - 測試帳號：
      (管理員) 帳號: admin / 密碼: admin
-     (一般會員) 帳號: user1 / 密碼: password1
+     (一般會員) 帳號: linyu_0823 / 密碼: 3280_uynil
 
 3. 本地執行方式 (助教若需在本地執行)：
    1. 需安裝 Node.js 與 PostgreSQL。
